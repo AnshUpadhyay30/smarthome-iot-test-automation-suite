@@ -1,0 +1,84 @@
+<div class="login-page">
+  <section class="login-hero">
+    <div class="hero-badge">QA Automation • SDET • Smart IoT Testing</div>
+
+    <h1>
+      SmartHome IoT<br />
+      <span>Quality Engineering</span><br />
+      Platform
+    </h1>
+
+    <p>
+      A professional automation dashboard for validating smart appliance workflows,
+      API reliability, UI behavior, database updates, audit logs, firmware, health
+      diagnostics, contract testing and CI/CD regression runs.
+    </p>
+
+    <div class="hero-grid">
+      <div class="hero-stat">
+        <strong>103</strong>
+        <span>Automated Tests</span>
+      </div>
+
+      <div class="hero-stat">
+        <strong>4</strong>
+        <span>Smart Devices</span>
+      </div>
+
+      <div class="hero-stat">
+        <strong>CI/CD</strong>
+        <span>GitHub Actions</span>
+      </div>
+    </div>
+
+    <div class="feature-list">
+      <span>API Testing</span>
+      <span>Playwright UI</span>
+      <span>DB Validation</span>
+      <span>Schema Tests</span>
+      <span>Performance Smoke</span>
+    </div>
+  </section>
+
+  <section class="login-shell">
+    <div class="login-card">
+      <div class="brand">
+        <div class="logo">Q</div>
+        <div>
+          <h1>SmartHome QA</h1>
+          <p>Enterprise Test Console</p>
+        </div>
+      </div>
+
+      <h2>Welcome back</h2>
+      <p class="subtitle">Sign in to access the automation control center.</p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <label>Email</label>
+        <input type="email" formControlName="email" placeholder="admin@test.com" />
+
+        <label>Password</label>
+        <input type="password" formControlName="password" placeholder="admin123" />
+
+        <button type="submit" [disabled]="loading">
+          {{ loading ? 'Authenticating...' : 'Launch Dashboard' }}
+        </button>
+      </form>
+
+      <div class="error" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <div class="hint">
+        Demo credentials: <strong>admin&#64;test.com / admin123</strong>
+      </div>
+
+      <div class="security-note">
+        <span class="dot"></span>
+        <span>
+          Token-based access with protected dashboard routes and API authorization headers.
+        </span>
+      </div>
+    </div>
+  </section>
+</div>

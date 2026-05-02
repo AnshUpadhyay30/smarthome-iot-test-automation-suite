@@ -1,0 +1,57 @@
+<div class="audit-page">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">Q</div>
+        <div>
+          <h2>SmartHome QA</h2>
+          <p>Automation Platform</p>
+        </div>
+      </div>
+  
+      <nav>
+        <a (click)="goToDashboard()">Dashboard</a>
+        <a class="active">Audit Logs</a>
+      </nav>
+    </aside>
+  
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <h1>Audit Logs</h1>
+          <p>Track device actions, firmware updates, health diagnostics, and automation activity</p>
+        </div>
+        <button (click)="loadLogs()">Refresh</button>
+      </header>
+  
+      <div class="error" *ngIf="errorMessage">{{ errorMessage }}</div>
+      <div class="loading" *ngIf="loading">Loading audit logs...</div>
+  
+      <section class="logs-table" *ngIf="!loading">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Device</th>
+              <th>Action</th>
+              <th>Old Value</th>
+              <th>New Value</th>
+              <th>Message</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+  
+          <tbody>
+            <tr *ngFor="let log of logs">
+              <td>{{ log.id }}</td>
+              <td>{{ log.device_name }}</td>
+              <td><span class="action">{{ log.action }}</span></td>
+              <td>{{ log.old_value || '-' }}</td>
+              <td>{{ log.new_value || '-' }}</td>
+              <td>{{ log.message }}</td>
+              <td>{{ log.created_at }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>

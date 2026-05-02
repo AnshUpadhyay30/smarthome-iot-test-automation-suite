@@ -1,0 +1,185 @@
+<div class="dashboard-page">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">Q</div>
+      <div>
+        <h2>SmartHome QA</h2>
+        <p>Automation Platform</p>
+      </div>
+    </div>
+
+    <nav>
+      <a class="active" (click)="goToDashboard()">Dashboard</a>
+      <a (click)="goToDevices()">Devices</a>
+      <a (click)="goToFirmware()">Firmware</a>
+      <a (click)="goToHealth()">Health</a>
+      <a (click)="goToAuditLogs()">Audit Logs</a>
+      <a (click)="goToReports()">Reports</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <header class="topbar">
+      <div>
+        <h1>SmartHome Quality Dashboard</h1>
+        <p>AC, TV, Refrigerator & Washing Machine test environment</p>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="report-btn" (click)="goToReports()">Open QA Report</button>
+        <button class="logout" (click)="logout()">Logout</button>
+      </div>
+    </header>
+
+    <section class="stats">
+      <div class="stat-card">
+        <span>Total Devices</span>
+        <strong>{{ totalDevices }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Connected Devices</span>
+        <strong>{{ onlineDevices }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Powered ON</span>
+        <strong>{{ poweredOnDevices }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Healthy Devices</span>
+        <strong>{{ healthyDevices }}</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Automation Tests</span>
+        <strong>103</strong>
+      </div>
+    </section>
+
+    <section class="report-summary">
+      <div>
+        <span>Latest Execution Report</span>
+        <h2>Pytest HTML Report</h2>
+        <p>View the latest generated automation execution report directly from the dashboard.</p>
+      </div>
+
+      <button (click)="goToReports()">View Full Report</button>
+    </section>
+
+    <div class="message success" *ngIf="successMessage">{{ successMessage }}</div>
+    <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <section id="devices-section" class="section-block">
+      <div class="section-title">
+        <h2>Device Control Center</h2>
+        <p>Control smart appliance power, temperature, volume and washing cycle workflows.</p>
+      </div>
+
+      <section class="devices-grid" *ngIf="!loading">
+        <article class="device-card" *ngFor="let device of devices" [attr.data-testid]="'device-card-' + device.id">
+          <div class="card-header">
+            <div>
+              <h3>{{ device.name }}</h3>
+              <p>{{ device.type }}</p>
+            </div>
+
+            <span class="badge" [class.offline]="device.status === 'OFFLINE'">
+              {{ device.status }}
+            </span>
+          </div>
+
+          <div class="device-info">
+            <div>
+              <span>Power</span>
+              <strong>{{ device.power }}</strong>
+            </div>
+
+            <div>
+              <span>Mode</span>
+              <strong>{{ device.mode }}</strong>
+            </div>
+
+            <div>
+              <span>Firmware</span>
+              <strong>{{ device.firmware_version }}</strong>
+            </div>
+
+            <div>
+              <span>Health</span>
+              <strong>{{ device.health_status }}</strong>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button (click)="updatePower(device, 'ON')">Power ON</button>
+            <button class="secondary" (click)="updatePower(device, 'OFF')">Power OFF</button>
+          </div>
+
+          <div class="control-block" *ngIf="device.type === 'AC'">
+            <p>Temperature: <strong id="temp-{{ device.id }}">{{ device.temperature }}</strong> °C</p>
+            <div class="inline-control">
+              <input #tempInput type="number" placeholder="16-30" />
+              <button (click)="updateTemperature(device, tempInput)">Set Temp</button>
+            </div>
+          </div>
+
+          <div class="control-block" *ngIf="device.type === 'TV'">
+            <p>Volume: <strong id="volume-{{ device.id }}">{{ device.volume }}</strong></p>
+            <div class="inline-control">
+              <input #volumeInput type="number" placeholder="0-100" />
+              <button (click)="updateVolume(device, volumeInput)">Set Volume</button>
+            </div>
+          </div>
+
+          <div class="control-block" *ngIf="device.type === 'REFRIGERATOR'">
+            <p>Fridge Temp: <strong>{{ device.temperature }}</strong> °C</p>
+            <p>Freezer Temp: <strong>{{ device.freezer_temperature }}</strong> °C</p>
+          </div>
+
+          <div class="control-block" *ngIf="device.type === 'WASHING_MACHINE'">
+            <p>Cycle: <strong>{{ device.cycle_status }}</strong></p>
+            <p>Water Level: <strong>{{ device.water_level }}</strong></p>
+            <div class="inline-control">
+              <input #waterInput type="number" placeholder="1-5" />
+              <button (click)="updateWasher(device, waterInput)">Start Cycle</button>
+            </div>
+          </div>
+        </article>
+      </section>
+    </section>
+
+    <section id="firmware-section" class="section-block info-section">
+      <div class="section-title">
+        <h2>Firmware Coverage</h2>
+        <p>Firmware versions are validated through API tests, DB checks, audit logs and schema contracts.</p>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card" *ngFor="let device of devices">
+          <span>{{ device.type }}</span>
+          <strong>{{ device.firmware_version }}</strong>
+          <p>{{ device.name }}</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="health-section" class="section-block info-section">
+      <div class="section-title">
+        <h2>Health Diagnostics</h2>
+        <p>Device connectivity, health status, Wi-Fi signal and error states are validated through automation.</p>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card" *ngFor="let device of devices">
+          <span>{{ device.name }}</span>
+          <strong>{{ device.health_status }}</strong>
+          <p>Signal: {{ device.wifi_signal }} | Error: {{ device.error_code || 'None' }}</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="loading" *ngIf="loading">Loading devices...</div>
+  </main>
+</div>
