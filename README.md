@@ -554,17 +554,6 @@ curl http://127.0.0.1:5000/api/audit-logs \
 
 ---
 
-## Resume Summary
-
-Built an end-to-end SmartHome IoT Test Automation Suite with Flask, SQLite, Pytest, Requests, Playwright, database validation, HTML reporting, and GitHub Actions CI/CD. Automated 43 test cases covering API, UI, boundary value, negative, smoke, database, and audit log validation scenarios.
-
----
-
-## Interview Explanation
-
-I built a SmartHome IoT Test Automation Suite inspired by smart appliance platforms. The system simulates AC, TV, refrigerator, and washing machine workflows using a Flask backend and SQLite database. I created APIs for login, device listing, device control, and audit logs. Then I built an automation framework using Pytest, Requests, Playwright, and SQL validation. The suite covers API testing, UI automation, database validation, boundary value analysis, negative testing, smoke testing, audit logs, HTML reporting, and CI/CD execution using GitHub Actions.
-
----
 
 ## Author
 
