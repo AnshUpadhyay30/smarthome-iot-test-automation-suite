@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SmartHome Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 24px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 18px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      margin: 0;
+      color: #1f2937;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-top: 6px;
+    }
+
+    .logout {
+      background: #dc2626;
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: #111827;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #166534;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .field {
+      margin: 8px 0;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .controls {
+      margin-top: 14px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    input {
+      padding: 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      width: 90px;
+    }
+
+    button {
+      padding: 8px 10px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+
+    .message {
+      margin: 12px 0;
+      color: #047857;
+      font-weight: bold;
+    }
+
+    .error {
+      margin: 12px 0;
+      color: #dc2626;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body onload="loadDevices()">
+  <div class="header">
+    <div>
+      <h1>SmartHome Dashboard</h1>
+      <div class="subtitle">AC, TV, Refrigerator & Washing Machine Control</div>
+    </div>
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+
+  <div id="message" class="message"></div>
+  <div id="errorMsg" class="error"></div>
+
+  <div id="devicesGrid" class="grid"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

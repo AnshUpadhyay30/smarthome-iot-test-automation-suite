@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+
+# Database
+backend/smarthome.db
+
+# Reports
+reports/
+automation/reports/
+test-results/
+playwright-report/
+
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Environment
+.env
+
+# Pytest
+.pytest_cache/
+
+# Playwright
+*.webm
+*.zip

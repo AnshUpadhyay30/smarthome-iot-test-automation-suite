@@ -1,0 +1,56 @@
+name: SmartHome QA Automation Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  qa-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          playwright install chromium
+
+      - name: Seed database
+        run: |
+          cd backend
+          python seed.py
+
+      - name: Start Flask backend
+        run: |
+          cd backend
+          nohup python app.py > ../backend.log 2>&1 &
+          sleep 5
+
+      - name: Run automated tests with HTML report
+        run: |
+          mkdir -p reports/html
+          pytest -v --html=reports/html/full_test_report.html --self-contained-html
+
+      - name: Upload HTML test report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smarthome-test-report
+          path: reports/html/full_test_report.html
+
+      - name: Upload backend logs
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-logs
+          path: backend.log
