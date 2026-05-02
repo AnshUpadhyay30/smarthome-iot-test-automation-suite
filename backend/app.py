@@ -4,6 +4,8 @@ from database import init_db, get_db_connection
 from routes.auth_routes import auth_bp
 from routes.device_routes import device_bp
 from routes.audit_routes import audit_bp
+from routes.firmware_routes import firmware_bp
+from routes.health_routes import health_bp
 
 
 def create_app():
@@ -15,6 +17,8 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(device_bp)
     app.register_blueprint(audit_bp)
+    app.register_blueprint(firmware_bp)
+    app.register_blueprint(health_bp)
 
     @app.route("/")
     def home():

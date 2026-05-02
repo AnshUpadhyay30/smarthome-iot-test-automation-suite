@@ -39,6 +39,9 @@ def init_db():
             cycle_status TEXT,
             water_level INTEGER,
             firmware_version TEXT,
+            health_status TEXT DEFAULT 'HEALTHY',
+            error_code TEXT,
+            wifi_signal TEXT DEFAULT 'GOOD',
             owner_id INTEGER,
             FOREIGN KEY(owner_id) REFERENCES users(id)
         )

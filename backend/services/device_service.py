@@ -2,6 +2,16 @@ from database import get_db_connection
 from services.audit_service import create_audit_log
 
 
+def safe_get(row, column_name, default=None):
+    """
+    SQLite Row me column exist karta hai ya nahi safely check karta hai.
+    Ye useful hai jab existing DB me naye columns baad me add hue hon.
+    """
+    if column_name in row.keys():
+        return row[column_name]
+    return default
+
+
 def row_to_device(row):
     return {
         "id": row["id"],
@@ -16,6 +26,9 @@ def row_to_device(row):
         "cycle_status": row["cycle_status"],
         "water_level": row["water_level"],
         "firmware_version": row["firmware_version"],
+        "health_status": safe_get(row, "health_status", "HEALTHY"),
+        "error_code": safe_get(row, "error_code", None),
+        "wifi_signal": safe_get(row, "wifi_signal", "GOOD"),
         "owner_id": row["owner_id"]
     }
 
