@@ -1,6 +1,24 @@
+import subprocess
+import sys
+from pathlib import Path
+
 import pytest
 from utils.api_client import APIClient
 from utils.db_client import DBClient
+
+
+@pytest.fixture(scope="session", autouse=True)
+def reset_database_before_test_session():
+    """
+    Full test run start hone se pehle database ko clean seed state me le aata hai.
+    Isse tests ek dusre ke state ko break nahi karte.
+    """
+    project_root = Path(__file__).resolve().parents[1]
+    seed_file = project_root / "backend" / "seed.py"
+    migrate_file = project_root / "backend" / "migrate_health_columns.py"
+
+    subprocess.run([sys.executable, str(seed_file)], check=True)
+    subprocess.run([sys.executable, str(migrate_file)], check=True)
 
 
 @pytest.fixture(scope="session")
